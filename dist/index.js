@@ -2056,18 +2056,18 @@ var Table = function Table(_ref) {
       onExport(filteredData, columns, columnDisplayNames);
     }
   };
+  var handleCopy = function handleCopy(cellValue) {
+    if (!cellValue) return;
+    navigator.clipboard.writeText(String(cellValue)).then(function () {
+      setCopied(true);
+      setTimeout(function () {
+        return setCopied(false);
+      }, 1000);
+    })["catch"](function (err) {
+      return console.error("Failed to copy: ", err);
+    });
+  };
   var renderCellContent = function renderCellContent(cellValue, row, column) {
-    var handleCopy = function handleCopy() {
-      if (!cellValue) return;
-      navigator.clipboard.writeText(String(cellValue)).then(function () {
-        setCopied(true);
-        setTimeout(function () {
-          return setCopied(false);
-        }, 1000);
-      })["catch"](function (err) {
-        return console.error("Failed to copy: ", err);
-      });
-    };
     var columnName = column.toLowerCase();
     if (copyableColumns.includes(columnName)) {
       return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("span", {

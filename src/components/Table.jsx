@@ -171,14 +171,16 @@ const Table = ({
       .catch((err) => console.error("Failed to copy: ", err));
   };
   const renderCellContent = (cellValue, row, column) => {
+  
+  
     const columnName = column.toLowerCase();
-
+  
     if (copyableColumns.includes(columnName)) {
       return (
         <>
           <span
             className={styles.copyableCell}
-            onClick={() => handleCopy(cellValue)} 
+            onClick={handleCopy}
             style={{ cursor: "pointer" }}
             data-tooltip-id={`copy-tooltip-${row.id || row[columnName]}`}
             data-tooltip-content={copied ? "Copied!" : "Click to copy"}
@@ -189,6 +191,9 @@ const Table = ({
         </>
       );
     }
+  
+    return <span>{cellValue}</span>;
+  };
 
   return (
     <div className={styles.tableContainer}>
