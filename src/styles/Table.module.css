@@ -9,9 +9,9 @@
 .title {
   font-size: 1.25rem;
   font-weight: bold;
-  color: var(--secondary-color);
+  color: #333333;
   margin-bottom: 20px;
-  border-left: 6px solid var(--primary-color);
+  border-left: 6px solid #3498db;
   padding-left: 12px;
 }
 
@@ -31,7 +31,7 @@
 
 .filterLabel {
   font-size: 0.875rem;
-  color: var(--text-color);
+  color: #555555;
 }
 
 .filterInputContainer {
@@ -82,7 +82,7 @@
 
 .itemsPerPageLabel {
   font-size: 0.875rem;
-  color: var(--text-color);
+  color: #555555;
 }
 
 .table {
@@ -111,11 +111,11 @@
 }
 
 .tableRow.evenRow {
-  background-color: var(--line-color-light);
+  background-color: #f9f9f9;
 }
 
 .tableRow:hover {
-  background-color: var(--line-color-dark);
+  background-color: #3498db;
   color: #ffffff;
 }
 
@@ -123,17 +123,17 @@
   padding: 10px;
   text-align: left;
   font-size: 0.875rem;
-  color: var(--text-color);
-  border-bottom: 1px solid var(--line-color-light);
+  color: #555555;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .redText {
-  color: var(--primary-color);
+  color: #e74c3c;
   font-weight: bold;
 }
 
 .editIcon {
-  color: var(--primary-color);
+  color: #3498db;
   font-size: 1.25rem;
   margin-left: 1rem;
   cursor: pointer;
@@ -185,15 +185,15 @@
 }
 
 .pagination li:hover {
-  background-color: var(--primary-color);
+  background-color: #3498db;
   color: #ffffff;
-  border-color: var(--primary-color);
+  border-color: #3498db;
 }
 
 .pagination li.active {
-  background-color: var(--primary-color);
+  background-color: #3498db;
   color: #ffffff;
-  border-color: var(--primary-color);
+  border-color: #3498db;
 }
 
 .pagination li.disabled {
@@ -203,7 +203,7 @@
 }
 
 .paginationLink a:hover {
-  background-color: var(--primary-color);
+  background-color: #3498db;
   color: #ffffff;
 }
 
@@ -246,7 +246,7 @@
 
 .flightDetail {
   font-size: 0.875rem;
-  color: var(--secondary-color);
+  color: #3498db;
 }
 
 .exportContainer {
@@ -257,7 +257,7 @@
 
 .exportButton {
   padding: 8px 16px;
-  background-color: var(--primary-color);
+  background-color: #3498db;
   color: #ffffff;
   border: none;
   border-radius: 6px;
