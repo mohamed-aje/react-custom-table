@@ -42,18 +42,7 @@ const Table = ({
   onExport,
   enableExport = false,
   tableId = "defaultTableId",
-  copyableColumns = [
-    "id",
-    "booking_id",
-    "email",
-    "pnr",
-    "country",
-    "email_address",
-    "full_name",
-    "phone_number",
-    "passenger_name",
-    "phone",
-  ],
+  copyableColumns = [],
   locale = {
     filterLabel: "Filter",
     noRecords: "There are no records to display at this time.",
@@ -173,7 +162,6 @@ const Table = ({
   };
 
   const renderCellContent = (cellValue, row, column) => {
-    const [copied, setCopied] = useState(false);
   
     const handleCopy = () => {
       if (!cellValue) return;
