@@ -1943,7 +1943,7 @@ var Table = function Table(_ref) {
     _ref$tableId = _ref.tableId,
     tableId = _ref$tableId === undefined ? "defaultTableId" : _ref$tableId,
     _ref$copyableColumns = _ref.copyableColumns,
-    copyableColumns = _ref$copyableColumns === undefined ? ["id", "booking_id", "email", "pnr", "country", "email_address", "full_name", "phone_number", "passenger_name", "phone"] : _ref$copyableColumns,
+    copyableColumns = _ref$copyableColumns === undefined ? [] : _ref$copyableColumns,
     _ref$locale = _ref.locale,
     locale = _ref$locale === undefined ? {
       filterLabel: "Filter",
@@ -1967,9 +1967,9 @@ var Table = function Table(_ref) {
     itemsPerPageSelected = _useState6[0],
     setItemsPerPageSelected = _useState6[1];
   var _useState7 = useState(false),
-    _useState8 = _slicedToArray(_useState7, 2);
-    _useState8[0];
-    _useState8[1];
+    _useState8 = _slicedToArray(_useState7, 2),
+    copied = _useState8[0],
+    setCopied = _useState8[1];
   var totalItems = data.length;
   var pageCount = function pageCount() {
     var dataLength = filterText ? filteredData.length : totalItems;
@@ -2055,10 +2055,6 @@ var Table = function Table(_ref) {
     }
   };
   var renderCellContent = function renderCellContent(cellValue, row, column) {
-    var _useState9 = useState(false),
-      _useState10 = _slicedToArray(_useState9, 2),
-      copied = _useState10[0],
-      setCopied = _useState10[1];
     var handleCopy = function handleCopy() {
       if (!cellValue) return;
       navigator.clipboard.writeText(String(cellValue)).then(function () {
