@@ -1,4 +1,4 @@
-const generateSelectStyles = (withBorder = false) => {
+export const generateSelectStyles = (withBorder = false) => {
   const borderStyle = withBorder ? `1px solid #e0e0e0` : "none";
 
   return {
