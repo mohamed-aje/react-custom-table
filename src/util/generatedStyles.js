@@ -2,7 +2,7 @@ export const generateSelectStyles = (withBorder = false) => {
   const borderStyle = withBorder ? `1px solid #e0e0e0` : "none";
 
   return {
-    control: (provided, state) => ({
+    control: (provided) => ({
       ...provided,
       border: borderStyle,
       fontSize: "14px",
@@ -11,14 +11,8 @@ export const generateSelectStyles = (withBorder = false) => {
       "&:hover": {
         border: borderStyle,
       },
-      borderColor: state.isFocused
-        ? withBorder
-          ? "#e0e0e0"
-          : "transparent"
-        : provided.borderColor,
-      boxShadow: state.isFocused
-        ? "0 0 0 1px #3498db !important"
-        : "none !important",
+      borderColor: provided.borderColor,
+      boxShadow: "none !important",
       outline: "none !important",
     }),
     option: (provided, state) => ({
