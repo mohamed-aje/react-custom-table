@@ -167,7 +167,7 @@ var generateSelectStyles = function generateSelectStyles() {
   var withBorder = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
   var borderStyle = withBorder ? "1px solid #e0e0e0" : "none";
   return {
-    control: function control(provided, state) {
+    control: function control(provided) {
       return _objectSpread2(_objectSpread2({}, provided), {}, {
         border: borderStyle,
         fontSize: "14px",
@@ -176,8 +176,8 @@ var generateSelectStyles = function generateSelectStyles() {
         "&:hover": {
           border: borderStyle
         },
-        borderColor: state.isFocused ? withBorder ? "#e0e0e0" : "transparent" : provided.borderColor,
-        boxShadow: state.isFocused ? "0 0 0 1px #3498db !important" : "none !important",
+        borderColor: provided.borderColor,
+        boxShadow: "none !important",
         outline: "none !important"
       });
     },
