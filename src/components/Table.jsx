@@ -92,12 +92,14 @@ const Table = ({
   };
 
   useEffect(() => {
+    console.log("useEffect 1 called");
     if (!paginationCallback && !onItemsPerPageChange) {
       localStorage.setItem(`itemsPerPage-${tableId}`, itemsPerPageSelected);
     }
   }, [itemsPerPageSelected, tableId]);
 
   useEffect(() => {
+    console.log("useEffect 2 called");
     if (!paginationCallback) {
       const savedPage = localStorage.getItem(`currentPage-${tableId}`);
       if (savedPage !== null) {
@@ -160,6 +162,7 @@ const Table = ({
       onExport(filteredData, columns, columnDisplayNames);
     }
   };
+
   const handleCopy = (cellValue) => {
     if (!cellValue) return;
     navigator.clipboard
@@ -170,9 +173,8 @@ const Table = ({
       })
       .catch((err) => console.error("Failed to copy: ", err));
   };
+
   const renderCellContent = (cellValue, row, column) => {
-  
-  
     const columnName = column.toLowerCase();
   
     if (copyableColumns.includes(columnName)) {
@@ -180,7 +182,7 @@ const Table = ({
         <>
           <span
             className={styles.copyableCell}
-            onClick={handleCopy}
+            onClick={() => handleCopy(cellValue)}
             style={{ cursor: "pointer" }}
             data-tooltip-id={`copy-tooltip-${row.id || row[columnName]}`}
             data-tooltip-content={copied ? "Copied!" : "Click to copy"}
