@@ -1,0 +1,305 @@
+.Table-module_tableContainer__Gf0Qf {
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.Table-module_title__CyT9- {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--secondary-color);
+  margin-bottom: 20px;
+  border-left: 6px solid var(--primary-color);
+  padding-left: 12px;
+}
+
+.Table-module_titleContainer__z5TL8 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Table-module_filterContainer__XIVe5 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.Table-module_filterLabel__yb-as {
+  font-size: 0.875rem;
+  color: var(--text-color);
+}
+.Table-module_recordSummaryWrapper__1qLNb {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.Table-module_recordSummary__t-SrI {
+  font-size: 0.95rem;
+  color: #888888;
+}
+
+.Table-module_itemsPerPageContainer__KD-Fx {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.Table-module_itemsPerPageLabel__XWVXu {
+  font-size: 0.875rem;
+  color: var(--text-color);
+}
+
+.Table-module_table__5TBGM {
+  width: 100%;
+  min-width: 850px;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+  background-color: #ffffff;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.Table-module_columnHeader__E-0hn {
+  padding: 12px;
+  color: #34495e;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: #f3f4f6;
+  border-bottom: 2px solid #ddd;
+  text-align: left;
+}
+
+.Table-module_tableRow__EhQU9 {
+  transition: background-color 0.3s ease;
+}
+
+.Table-module_tableRow__EhQU9.Table-module_evenRow__dSFm7 {
+  background-color: var(--line-color-light);
+}
+
+.Table-module_tableRow__EhQU9:hover {
+  background-color: var(--line-color-dark);
+  color: #ffffff;
+}
+
+.Table-module_tableCell__H-Q5E {
+  padding: 10px;
+  text-align: left;
+  font-size: 0.875rem;
+  color: var(--text-color);
+  border-bottom: 1px solid var(--line-color-light);
+}
+
+.Table-module_redText__Cq9-d {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.Table-module_editIcon__HbrGj {
+  color: var(--primary-color);
+  font-size: 1.25rem;
+  margin-left: 1rem;
+  cursor: pointer;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.Table-module_editIcon__HbrGj:hover {
+  color: #d50032;
+  transform: scale(1.2);
+}
+
+/* Pagination Styles */
+.Table-module_paginationContainer__mjDju {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.Table-module_pagination__MZurs {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  gap: 5px;
+}
+.Table-module_pagination__MZurs a {
+  padding: 10px 20px;
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.Table-module_pagination__MZurs li {
+  display: block;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 1px solid #dfe3eb;
+  border-radius: 6px;
+  background-color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6c757d;
+  transition: all 0.3s ease;
+}
+
+.Table-module_pagination__MZurs li:hover {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  border-color: var(--primary-color);
+}
+
+.Table-module_pagination__MZurs li.Table-module_active__etioB {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  border-color: var(--primary-color);
+}
+
+.Table-module_pagination__MZurs li.Table-module_disabled__dHuoo {
+  background-color: #f3f6fa;
+  color: #b0b0b0;
+  cursor: not-allowed;
+}
+
+.Table-module_paginationLink__w5e4s a:hover {
+  background-color: var(--primary-color);
+  color: #ffffff;
+}
+
+.Table-module_paginationDisabled__2200t,
+.Table-module_disabledPagination__fIeBb a {
+  color: #b0b0b0;
+  pointer-events: none;
+  background-color: #f3f6fa;
+  border-color: #e0e0e0;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Warning Message */
+.Table-module_warn__rebJm {
+  text-align: center;
+  padding: 20px;
+  font-size: 1.2em;
+  color: #999999;
+}
+
+.Table-module_infoSection__ALjGg {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+}
+
+.Table-module_flightName__GxnBT {
+  font-size: 1rem;
+  margin-right: 8px;
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+.Table-module_carrier__ITOGN {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}
+
+.Table-module_flightDetail__w7tVX {
+  font-size: 0.875rem;
+  color: var(--secondary-color);
+}
+.Table-module_exportContainer__Mhvbf {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+@media (max-width: 1024px) {
+  .Table-module_tableContainer__Gf0Qf {
+    padding: 15px;
+  }
+
+  .Table-module_title__CyT9- {
+    font-size: 1.125rem;
+  }
+
+  .Table-module_columnHeader__E-0hn {
+    padding: 10px;
+    font-size: 0.875rem;
+  }
+
+  .Table-module_tableCell__H-Q5E {
+    padding: 10px;
+    font-size: 0.8rem;
+  }
+
+  .Table-module_editIcon__HbrGj {
+    font-size: 1rem;
+  }
+
+  .Table-module_pagination__MZurs li {
+    padding: 8px 12px;
+  }
+
+  .Table-module_paginationLink__w5e4s a {
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .Table-module_tableContainer__Gf0Qf {
+    padding: 10px;
+  }
+
+  .Table-module_title__CyT9- {
+    font-size: 1rem;
+  }
+
+  .Table-module_columnHeader__E-0hn {
+    padding: 8px;
+    font-size: 0.75rem;
+  }
+
+  .Table-module_tableCell__H-Q5E {
+    padding: 8px;
+    font-size: 0.75rem;
+  }
+
+  .Table-module_editIcon__HbrGj {
+    font-size: 0.875rem;
+  }
+
+  .Table-module_pagination__MZurs li {
+    padding: 6px 8px;
+  }
+
+  .Table-module_paginationLink__w5e4s a {
+    padding: 6px 8px;
+  }
+
+  .Table-module_infoSection__ALjGg {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .Table-module_flightName__GxnBT {
+    font-size: 0.9rem;
+  }
+}
+@media (max-width: 768px) {
+  .Table-module_title__CyT9- {
+    font-size: 1rem;
+  }
+  .Table-module_tableCell__H-Q5E {
+    font-size: 0.75rem;
+  }
+}
