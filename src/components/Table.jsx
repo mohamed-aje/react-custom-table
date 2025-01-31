@@ -160,28 +160,25 @@ const Table = ({
       onExport(filteredData, columns, columnDisplayNames);
     }
   };
-
+  const handleCopy = (cellValue) => {
+    if (!cellValue) return;
+    navigator.clipboard
+      .writeText(String(cellValue))
+      .then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1000); 
+      })
+      .catch((err) => console.error("Failed to copy: ", err));
+  };
   const renderCellContent = (cellValue, row, column) => {
-  
-    const handleCopy = () => {
-      if (!cellValue) return;
-      navigator.clipboard
-        .writeText(String(cellValue))
-        .then(() => {
-          setCopied(true);
-          setTimeout(() => setCopied(false), 1000);
-        })
-        .catch((err) => console.error("Failed to copy: ", err));
-    };
-  
     const columnName = column.toLowerCase();
-  
+
     if (copyableColumns.includes(columnName)) {
       return (
         <>
           <span
             className={styles.copyableCell}
-            onClick={handleCopy}
+            onClick={() => handleCopy(cellValue)} 
             style={{ cursor: "pointer" }}
             data-tooltip-id={`copy-tooltip-${row.id || row[columnName]}`}
             data-tooltip-content={copied ? "Copied!" : "Click to copy"}
@@ -192,9 +189,6 @@ const Table = ({
         </>
       );
     }
-  
-    return <span>{cellValue}</span>;
-  };
 
   return (
     <div className={styles.tableContainer}>
