@@ -165,7 +165,7 @@ var styles = {"tableContainer":"Table-module_tableContainer__Gf0Qf","title":"Tab
 
 var generateSelectStyles = function generateSelectStyles() {
   var withBorder = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-  var borderStyle = withBorder ? "1px solid #dfe3eb" : "none";
+  var borderStyle = withBorder ? "1px solid #e0e0e0" : "none";
   return {
     control: function control(provided, state) {
       return _objectSpread2(_objectSpread2({}, provided), {}, {
@@ -176,15 +176,15 @@ var generateSelectStyles = function generateSelectStyles() {
         "&:hover": {
           border: borderStyle
         },
-        borderColor: state.isFocused ? withBorder ? "#dfe3eb" : "transparent" : provided.borderColor,
-        boxShadow: state.isFocused ? "0 0 0 1px #ff2a52 !important" : "none !important",
+        borderColor: state.isFocused ? withBorder ? "#e0e0e0" : "transparent" : provided.borderColor,
+        boxShadow: state.isFocused ? "0 0 0 1px #3498db !important" : "none !important",
         outline: "none !important"
       });
     },
     option: function option(provided, state) {
       return _objectSpread2(_objectSpread2({}, provided), {}, {
-        color: state.isSelected ? "white" : "black",
-        backgroundColor: state.isSelected ? "gray" : "white",
+        color: state.isSelected ? "white" : "#333333",
+        backgroundColor: state.isSelected ? "#3498db" : "white",
         "&:hover": {
           backgroundColor: "#ff2a52"
         }
