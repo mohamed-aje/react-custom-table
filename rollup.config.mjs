@@ -29,7 +29,6 @@ export default {
   external: [
     "react",
     "react-dom",
-    "@mui/material",
     "react-icons",
     "react-select",
     "react-paginate",

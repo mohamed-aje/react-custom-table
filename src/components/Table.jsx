@@ -4,14 +4,13 @@ import {
   MdOutlineDelete,
   MdOutlineModeEditOutline,
   MdOutlineRemoveRedEye,
+  MdClear,
 } from "react-icons/md";
 import ReactPaginate from "react-paginate";
 import Select from "react-select";
-import { TextField, IconButton, InputAdornment, Button } from "@mui/material";
 import styles from "../styles/Table.module.css";
 import { generateSelectStyles } from "../util/generatedStyles";
 import { Tooltip as ReactTooltip } from "react-tooltip";
-
 
 const Table = ({
   columns = [],
@@ -67,8 +66,7 @@ const Table = ({
 }) => {
   const [currentPage, setCurrentPage] = useState(currentPaginationPage);
   const [filterText, setFilterText] = useState("");
-  const [itemsPerPageSelected, setItemsPerPageSelected] =
-    useState(defaultItemsPerPage);
+  const [itemsPerPageSelected, setItemsPerPageSelected] = useState(defaultItemsPerPage);
   const [copied, setCopied] = useState(false);
 
   const totalItems = data.length;
@@ -209,7 +207,6 @@ const Table = ({
   
     return <span>{cellValue}</span>;
   };
-  
 
   return (
     <div className={styles.tableContainer}>
@@ -219,35 +216,26 @@ const Table = ({
         {enableFilter && data.length > 0 && (
           <div className={styles.filterContainer}>
             <label className={styles.filterLabel}>{locale.filterLabel}</label>
-            <TextField
-              variant="outlined"
-              size="small"
-              value={filterText}
-              onChange={handleFilterChange}
-              placeholder="Search content..."
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "var(--primary-color)",
-                  },
-                },
-              }}
-              InputProps={{
-                endAdornment: filterText ? (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() => {
-                        setFilterText("");
-                        setCurrentPage(0);
-                      }}
-                      size="small"
-                    >
-                      <MdClear size={16} />
-                    </IconButton>
-                  </InputAdornment>
-                ) : null,
-              }}
-            />
+            <div className={styles.filterInputContainer}>
+              <input
+                type="text"
+                className={styles.filterInput}
+                value={filterText}
+                onChange={handleFilterChange}
+                placeholder="Search content..."
+              />
+              {filterText && (
+                <button
+                  className={styles.clearFilterButton}
+                  onClick={() => {
+                    setFilterText("");
+                    setCurrentPage(0);
+                  }}
+                >
+                  <MdClear size={16} />
+                </button>
+              )}
+            </div>
           </div>
         )}
       </div>
@@ -403,11 +391,13 @@ const Table = ({
       )}
       {enableExport && data.length > 0 && (
         <div className={styles.exportContainer}>
-          <Button
+          <button
+            className={styles.exportButton}
             onClick={handleExport}
             title={locale.exportButtonLabel}
-            color="grey"
-          />
+          >
+            {locale.exportButtonLabel}
+          </button>
         </div>
       )}
     </div>
