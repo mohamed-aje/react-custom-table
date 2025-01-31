@@ -3,7 +3,6 @@
 var React = require('react');
 var ReactPaginate = require('react-paginate');
 var Select = require('react-select');
-var material = require('@mui/material');
 
 function _arrayLikeToArray(r, a) {
   (null == a || a > r.length) && (a = r.length);
@@ -154,6 +153,8 @@ function IconBase(props) {
 // THIS FILE IS AUTO GENERATED
 function MdLockReset (props) {
   return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 24 24"},"child":[{"tag":"path","attr":{"fill":"none","d":"M0 0h24v24H0z"},"child":[]},{"tag":"path","attr":{"d":"M13 3a9 9 0 0 0-9 9H1l4 4 4-4H6c0-3.86 3.14-7 7-7s7 3.14 7 7-3.14 7-7 7c-1.9 0-3.62-.76-4.88-1.99L6.7 18.42A8.982 8.982 0 0 0 13 21a9 9 0 0 0 0-18zm2 8v-1c0-1.1-.9-2-2-2s-2 .9-2 2v1c-.55 0-1 .45-1 1v3c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-3c0-.55-.45-1-1-1zm-1 0h-2v-1c0-.55.45-1 1-1s1 .45 1 1v1z"},"child":[]}]})(props);
+}function MdClear (props) {
+  return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 24 24"},"child":[{"tag":"path","attr":{"fill":"none","d":"M0 0h24v24H0z"},"child":[]},{"tag":"path","attr":{"d":"M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"},"child":[]}]})(props);
 }function MdOutlineDelete (props) {
   return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 24 24"},"child":[{"tag":"path","attr":{"fill":"none","d":"M0 0h24v24H0V0z"},"child":[]},{"tag":"path","attr":{"d":"M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z"},"child":[]}]})(props);
 }function MdOutlineModeEditOutline (props) {
@@ -162,7 +163,7 @@ function MdLockReset (props) {
   return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 24 24"},"child":[{"tag":"path","attr":{"fill":"none","d":"M0 0h24v24H0V0z"},"child":[]},{"tag":"path","attr":{"d":"M12 6.5a9.77 9.77 0 0 1 8.82 5.5c-1.65 3.37-5.02 5.5-8.82 5.5S4.83 15.37 3.18 12A9.77 9.77 0 0 1 12 6.5m0-2C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 5a2.5 2.5 0 0 1 0 5 2.5 2.5 0 0 1 0-5m0-2c-2.48 0-4.5 2.02-4.5 4.5s2.02 4.5 4.5 4.5 4.5-2.02 4.5-4.5-2.02-4.5-4.5-4.5z"},"child":[]}]})(props);
 }
 
-var styles = {"tableContainer":"Table-module_tableContainer__Gf0Qf","title":"Table-module_title__CyT9-","titleContainer":"Table-module_titleContainer__z5TL8","filterContainer":"Table-module_filterContainer__XIVe5","filterLabel":"Table-module_filterLabel__yb-as","recordSummaryWrapper":"Table-module_recordSummaryWrapper__1qLNb","recordSummary":"Table-module_recordSummary__t-SrI","itemsPerPageContainer":"Table-module_itemsPerPageContainer__KD-Fx","itemsPerPageLabel":"Table-module_itemsPerPageLabel__XWVXu","table":"Table-module_table__5TBGM","columnHeader":"Table-module_columnHeader__E-0hn","tableRow":"Table-module_tableRow__EhQU9","evenRow":"Table-module_evenRow__dSFm7","tableCell":"Table-module_tableCell__H-Q5E","redText":"Table-module_redText__Cq9-d","editIcon":"Table-module_editIcon__HbrGj","paginationContainer":"Table-module_paginationContainer__mjDju","pagination":"Table-module_pagination__MZurs","active":"Table-module_active__etioB","disabled":"Table-module_disabled__dHuoo","paginationLink":"Table-module_paginationLink__w5e4s","paginationDisabled":"Table-module_paginationDisabled__2200t","disabledPagination":"Table-module_disabledPagination__fIeBb","warn":"Table-module_warn__rebJm","infoSection":"Table-module_infoSection__ALjGg","flightName":"Table-module_flightName__GxnBT","carrier":"Table-module_carrier__ITOGN","flightDetail":"Table-module_flightDetail__w7tVX","exportContainer":"Table-module_exportContainer__Mhvbf"};
+var styles = {"tableContainer":"Table-module_tableContainer__Gf0Qf","title":"Table-module_title__CyT9-","titleContainer":"Table-module_titleContainer__z5TL8","filterContainer":"Table-module_filterContainer__XIVe5","filterLabel":"Table-module_filterLabel__yb-as","filterInputContainer":"Table-module_filterInputContainer__AyJCp","filterInput":"Table-module_filterInput__1Dn3I","clearFilterButton":"Table-module_clearFilterButton__pCEO6","recordSummaryWrapper":"Table-module_recordSummaryWrapper__1qLNb","recordSummary":"Table-module_recordSummary__t-SrI","itemsPerPageContainer":"Table-module_itemsPerPageContainer__KD-Fx","itemsPerPageLabel":"Table-module_itemsPerPageLabel__XWVXu","table":"Table-module_table__5TBGM","columnHeader":"Table-module_columnHeader__E-0hn","tableRow":"Table-module_tableRow__EhQU9","evenRow":"Table-module_evenRow__dSFm7","tableCell":"Table-module_tableCell__H-Q5E","redText":"Table-module_redText__Cq9-d","editIcon":"Table-module_editIcon__HbrGj","paginationContainer":"Table-module_paginationContainer__mjDju","pagination":"Table-module_pagination__MZurs","active":"Table-module_active__etioB","disabled":"Table-module_disabled__dHuoo","paginationLink":"Table-module_paginationLink__w5e4s","paginationDisabled":"Table-module_paginationDisabled__2200t","disabledPagination":"Table-module_disabledPagination__fIeBb","warn":"Table-module_warn__rebJm","infoSection":"Table-module_infoSection__ALjGg","flightName":"Table-module_flightName__GxnBT","carrier":"Table-module_carrier__ITOGN","flightDetail":"Table-module_flightDetail__w7tVX","exportContainer":"Table-module_exportContainer__Mhvbf","exportButton":"Table-module_exportButton__UzjQC"};
 
 var generateSelectStyles = function generateSelectStyles() {
   var withBorder = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
@@ -2099,33 +2100,23 @@ var Table = function Table(_ref) {
     className: styles.filterContainer
   }, /*#__PURE__*/React.createElement("label", {
     className: styles.filterLabel
-  }, locale.filterLabel), /*#__PURE__*/React.createElement(material.TextField, {
-    variant: "outlined",
-    size: "small",
+  }, locale.filterLabel), /*#__PURE__*/React.createElement("div", {
+    className: styles.filterInputContainer
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    className: styles.filterInput,
     value: filterText,
     onChange: handleFilterChange,
-    placeholder: "Search content...",
-    sx: {
-      "& .MuiOutlinedInput-root": {
-        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-          borderColor: "var(--primary-color)"
-        }
-      }
-    },
-    InputProps: {
-      endAdornment: filterText ? /*#__PURE__*/React.createElement(material.InputAdornment, {
-        position: "end"
-      }, /*#__PURE__*/React.createElement(material.IconButton, {
-        onClick: function onClick() {
-          setFilterText("");
-          setCurrentPage(0);
-        },
-        size: "small"
-      }, /*#__PURE__*/React.createElement(MdClear, {
-        size: 16
-      }))) : null
+    placeholder: "Search content..."
+  }), filterText && /*#__PURE__*/React.createElement("button", {
+    className: styles.clearFilterButton,
+    onClick: function onClick() {
+      setFilterText("");
+      setCurrentPage(0);
     }
-  }))), data.length > 0 && /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement(MdClear, {
+    size: 16
+  }))))), data.length > 0 && /*#__PURE__*/React.createElement("div", {
     className: styles.recordSummaryWrapper
   }, /*#__PURE__*/React.createElement("div", {
     className: styles.recordSummary
@@ -2220,11 +2211,11 @@ var Table = function Table(_ref) {
     nextClassName: hasNextPage === undefined || hasNextPage === false ? "disabled" : ""
   })), enableExport && data.length > 0 && /*#__PURE__*/React.createElement("div", {
     className: styles.exportContainer
-  }, /*#__PURE__*/React.createElement(material.Button, {
+  }, /*#__PURE__*/React.createElement("button", {
+    className: styles.exportButton,
     onClick: handleExport,
-    title: locale.exportButtonLabel,
-    color: "grey"
-  })));
+    title: locale.exportButtonLabel
+  }, locale.exportButtonLabel)));
 };
 
 module.exports = Table;

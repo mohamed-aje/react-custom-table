@@ -33,12 +33,41 @@
   font-size: 0.875rem;
   color: var(--text-color);
 }
+
+.Table-module_filterInputContainer__AyJCp {
+  position: relative;
+}
+
+.Table-module_filterInput__1Dn3I {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  width: 200px;
+}
+
+.Table-module_clearFilterButton__pCEO6 {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #888;
+}
+
+.Table-module_clearFilterButton__pCEO6:hover {
+  color: #333;
+}
+
 .Table-module_recordSummaryWrapper__1qLNb {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
 }
+
 .Table-module_recordSummary__t-SrI {
   font-size: 0.95rem;
   color: #888888;
@@ -108,7 +137,9 @@
   font-size: 1.25rem;
   margin-left: 1rem;
   cursor: pointer;
-  transition: transform 0.3s ease, color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    color 0.3s ease;
 }
 
 .Table-module_editIcon__HbrGj:hover {
@@ -116,7 +147,6 @@
   transform: scale(1.2);
 }
 
-/* Pagination Styles */
 .Table-module_paginationContainer__mjDju {
   display: flex;
   justify-content: center;
@@ -129,6 +159,7 @@
   padding: 0;
   gap: 5px;
 }
+
 .Table-module_pagination__MZurs a {
   padding: 10px 20px;
   display: block;
@@ -186,7 +217,6 @@
   cursor: not-allowed;
 }
 
-/* Warning Message */
 .Table-module_warn__rebJm {
   text-align: center;
   padding: 20px;
@@ -218,11 +248,28 @@
   font-size: 0.875rem;
   color: var(--secondary-color);
 }
+
 .Table-module_exportContainer__Mhvbf {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 1rem;
 }
+
+.Table-module_exportButton__UzjQC {
+  padding: 8px 16px;
+  background-color: var(--primary-color);
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background-color 0.3s ease;
+}
+
+.Table-module_exportButton__UzjQC:hover {
+  background-color: #d50032;
+}
+
 @media (max-width: 1024px) {
   .Table-module_tableContainer__Gf0Qf {
     padding: 15px;
@@ -295,6 +342,7 @@
     font-size: 0.9rem;
   }
 }
+
 @media (max-width: 768px) {
   .Table-module_title__CyT9- {
     font-size: 1rem;
