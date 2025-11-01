@@ -1,53 +1,126 @@
-# 💊 React Custom Table
+# � React Pro Table
 
-A **highly customizable and reusable** table component for React applications, featuring **pagination, filtering, sorting, and export functionality**.
+A **professional-grade, highly customizable** React table component with advanced features including **TypeScript support, virtualization, sorting, filtering, pagination, mobile responsiveness, and accessibility**.
 
-## 🚀 Features
+[![npm version](https://badge.fury.io/js/react-pro-tablex.svg)](https://badge.fury.io/js/react-pro-tablex)
+[![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](http://www.typescriptlang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-✅ Fully **customizable** via props and styles  
-✅ **Pagination** with support for dynamic page fetching  
-✅ **Search & Filtering** with instant updates  
-✅ **Sorting** support for multiple columns  
-✅ **Copyable Cells** for selected columns  
-✅ **Localization Support** for different languages  
-✅ **Export to CSV** functionality  
-✅ **Responsive & Accessible** design  
+## ✨ Features
+
+### 🎯 Core Features
+- 📊 **TypeScript Support** - Full type safety with comprehensive interfaces
+- ⚡ **Virtualization** - Handle 10,000+ rows with smooth performance
+- 🔄 **Advanced Sorting** - Multi-column sorting with custom sort functions
+- 🔍 **Advanced Filtering** - Column-specific filters, global search, date ranges
+- 📱 **Mobile Responsive** - Card view for mobile, horizontal scroll for tablets
+- 🎨 **Theming System** - CSS custom properties, dark mode, custom themes
+- ♿ **Accessibility** - WCAG 2.1 AA compliant with keyboard navigation
+- 📄 **Pagination** - Server-side or client-side with customizable options
+
+### 🔧 Advanced Features
+- 🎛️ **Column Management** - Resizable, reorderable, hideable columns
+- ✅ **Row Selection** - Single or multi-select with custom validation
+- 🔗 **Action Buttons** - Customizable actions with permissions
+- 📋 **Copy to Clipboard** - One-click copying for designated cells
+- 📤 **Export** - CSV export with custom formatters
+- 💾 **State Persistence** - LocalStorage integration for user preferences
+- 🌐 **Internationalization** - Full i18n support with custom locales
 
 ---
 
-## 📺 Installation
+## � Installation
 
-Install via **npm** or **yarn**:
-
-```sh
-npm install react-custom-table
+```bash
+npm install react-pro-tablex
 # or
-yarn add react-custom-table
+yarn add react-pro-tablex
 ```
 
 ---
 
-## 📌 Basic Usage
+## � Quick Start
 
-Import the table component and use it in your project:
+### Basic Usage
 
-```jsx
-import React from "react";
-import Table from "react-custom-table";
+```tsx
+import React from 'react';
+import { Table, TableColumn } from 'react-pro-tablex';
 
-const columns = ["name", "email"];
-const columnDisplayNames = ["Name", "Email"];
-const data = [
-  { name: "John Doe", email: "john@example.com" },
-  { name: "Jane Smith", email: "jane@example.com" }
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  status: 'active' | 'inactive';
+}
+
+const columns: TableColumn<User>[] = [
+  {
+    key: 'id',
+    title: 'ID',
+    dataIndex: 'id',
+    width: 80,
+    sortable: true,
+  },
+  {
+    key: 'name',
+    title: 'Name',
+    dataIndex: 'name',
+    sortable: true,
+    filterable: true,
+    copyable: true,
+  },
+  {
+    key: 'email',
+    title: 'Email',
+    dataIndex: 'email',
+    filterable: true,
+    copyable: true,
+  },
+  {
+    key: 'role',
+    title: 'Role',
+    dataIndex: 'role',
+    filterable: true,
+    filterType: 'select',
+    filterOptions: [
+      { label: 'Admin', value: 'admin' },
+      { label: 'User', value: 'user' },
+      { label: 'Guest', value: 'guest' },
+    ],
+  },
 ];
 
-function App() {
+const data: User[] = [
+  { id: 1, name: 'John Doe', email: 'john@example.com', role: 'admin', status: 'active' },
+  { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'user', status: 'active' },
+];
+
+function UserTable() {
   return (
-    <Table
+    <Table<User>
       columns={columns}
-      columnDisplayNames={columnDisplayNames}
       data={data}
+      title="Users Management"
+      pagination={{
+        pageSize: 10,
+        showSizeChanger: true,
+      }}
+      actions={[
+        {
+          key: 'edit',
+          label: 'Edit',
+          onClick: (record) => console.log('Edit:', record),
+          type: 'primary',
+        },
+      ]}
+      exportConfig={{
+        filename: 'users.csv',
+      }}
+    />
+  );
+}
       title="User List"
       enablePagination={true}
     />

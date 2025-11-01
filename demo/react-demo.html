@@ -1,0 +1,1367 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React Pro Table - Live Demo</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/react-icons@4.11.0/lib/index.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+          "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+          "Helvetica Neue", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      #root {
+        width: 100%;
+      }
+
+      .loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-size: 1.2rem;
+        color: #6b7280;
+      }
+
+      /* Custom scrollbar styles */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+      }
+
+      /* Mobile responsive helpers */
+      @media (max-width: 768px) {
+        .table-container {
+          overflow-x: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div class="loading">🔄 Loading React Pro Table Demo...</div>
+    </div>
+
+    <script type="text/babel">
+      const { useState, useMemo, useEffect } = React;
+      const { createRoot } = ReactDOM;
+
+      // Mock React Icons (simplified versions)
+      const MdEdit = () => React.createElement("span", null, "✏️");
+      const MdDelete = () => React.createElement("span", null, "🗑️");
+      const MdVisibility = () => React.createElement("span", null, "👁️");
+      const MdFileDownload = () => React.createElement("span", null, "⬇️");
+      const MdRefresh = () => React.createElement("span", null, "🔄");
+
+      // Mock Table Component (represents our enhanced table)
+      const TableDemo = ({ data, title, onRefresh }) => {
+        const [currentPage, setCurrentPage] = useState(1);
+        const [pageSize, setPageSize] = useState(15);
+        const [searchTerm, setSearchTerm] = useState("");
+        const [sortField, setSortField] = useState("id");
+        const [sortDirection, setSortDirection] = useState("asc");
+        const [selectedRows, setSelectedRows] = useState([]);
+        const [filterDepartment, setFilterDepartment] = useState("");
+
+        // Process data
+        const processedData = useMemo(() => {
+          let filtered = data;
+
+          // Global search
+          if (searchTerm) {
+            filtered = filtered.filter((item) =>
+              Object.values(item).some((value) =>
+                String(value).toLowerCase().includes(searchTerm.toLowerCase())
+              )
+            );
+          }
+
+          // Department filter
+          if (filterDepartment) {
+            filtered = filtered.filter(
+              (item) => item.department === filterDepartment
+            );
+          }
+
+          // Sorting
+          filtered.sort((a, b) => {
+            const aVal = a[sortField];
+            const bVal = b[sortField];
+
+            if (aVal < bVal) return sortDirection === "asc" ? -1 : 1;
+            if (aVal > bVal) return sortDirection === "asc" ? 1 : -1;
+            return 0;
+          });
+
+          return filtered;
+        }, [data, searchTerm, filterDepartment, sortField, sortDirection]);
+
+        const paginatedData = useMemo(() => {
+          const startIndex = (currentPage - 1) * pageSize;
+          return processedData.slice(startIndex, startIndex + pageSize);
+        }, [processedData, currentPage, pageSize]);
+
+        const totalPages = Math.ceil(processedData.length / pageSize);
+        const departments = [...new Set(data.map((emp) => emp.department))];
+
+        const handleSort = (field) => {
+          if (sortField === field) {
+            setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+          } else {
+            setSortField(field);
+            setSortDirection("asc");
+          }
+        };
+
+        const handleRowSelect = (id) => {
+          setSelectedRows((prev) =>
+            prev.includes(id)
+              ? prev.filter((rowId) => rowId !== id)
+              : [...prev, id]
+          );
+        };
+
+        const handleSelectAll = () => {
+          if (selectedRows.length === paginatedData.length) {
+            setSelectedRows([]);
+          } else {
+            setSelectedRows(paginatedData.map((row) => row.id));
+          }
+        };
+
+        const exportCSV = () => {
+          const headers = [
+            "ID",
+            "First Name",
+            "Last Name",
+            "Email",
+            "Department",
+            "Position",
+            "Salary",
+            "Start Date",
+            "Status",
+            "Performance",
+          ];
+          const csvContent = [
+            headers.join(","),
+            ...processedData.map((row) =>
+              [
+                row.id,
+                row.firstName,
+                row.lastName,
+                row.email,
+                row.department,
+                row.position,
+                row.salary,
+                row.startDate,
+                row.status,
+                row.performance,
+              ].join(",")
+            ),
+          ].join("\n");
+
+          const blob = new Blob([csvContent], { type: "text/csv" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `${title?.toLowerCase().replace(/\s+/g, "-") || "table"}-export.csv`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        };
+
+        const getSortIcon = (field) => {
+          if (sortField !== field) return "↕️";
+          return sortDirection === "asc" ? "↑" : "↓";
+        };
+
+        const getStatusBadge = (status) => {
+          const colors = {
+            active: { bg: "#10b981", color: "white" },
+            inactive: { bg: "#ef4444", color: "white" },
+            "on-leave": { bg: "#f59e0b", color: "white" },
+          };
+
+          const style = colors[status] || colors.inactive;
+
+          return React.createElement(
+            "span",
+            {
+              style: {
+                padding: "4px 8px",
+                borderRadius: "12px",
+                fontSize: "11px",
+                fontWeight: "bold",
+                textTransform: "uppercase",
+                backgroundColor: style.bg,
+                color: style.color,
+                whiteSpace: "nowrap",
+                display: "inline-block",
+              },
+            },
+            status.replace("-", " ")
+          );
+        };
+
+        const getPerformanceStars = (rating) => {
+          return "⭐".repeat(rating) + "☆".repeat(5 - rating);
+        };
+
+        return React.createElement(
+          "div",
+          {
+            style: {
+              background: "white",
+              borderRadius: "12px",
+              padding: "24px",
+              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+              border: "1px solid #e5e7eb",
+            },
+          },
+          [
+            // Header
+            React.createElement(
+              "div",
+              {
+                key: "header",
+                style: {
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: "24px",
+                  flexWrap: "wrap",
+                  gap: "16px",
+                },
+              },
+              [
+                React.createElement("div", { key: "title" }, [
+                  title &&
+                    React.createElement(
+                      "h2",
+                      {
+                        key: "h2",
+                        style: {
+                          margin: 0,
+                          fontSize: "1.5rem",
+                          fontWeight: "700",
+                          color: "#1f2937",
+                          borderLeft: "4px solid #3b82f6",
+                          paddingLeft: "12px",
+                        },
+                      },
+                      title
+                    ),
+                ]),
+
+                React.createElement(
+                  "div",
+                  {
+                    key: "buttons",
+                    style: {
+                      display: "flex",
+                      gap: "12px",
+                      alignItems: "center",
+                    },
+                  },
+                  [
+                    onRefresh &&
+                      React.createElement(
+                        "button",
+                        {
+                          key: "refresh",
+                          onClick: onRefresh,
+                          style: {
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "6px",
+                            padding: "8px 16px",
+                            border: "1px solid #d1d5db",
+                            borderRadius: "6px",
+                            background: "white",
+                            color: "#374151",
+                            cursor: "pointer",
+                            fontSize: "14px",
+                            fontWeight: "500",
+                          },
+                        },
+                        [
+                          React.createElement(MdRefresh, { key: "icon" }),
+                          " Refresh",
+                        ]
+                      ),
+
+                    React.createElement(
+                      "button",
+                      {
+                        key: "export",
+                        onClick: exportCSV,
+                        style: {
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "6px",
+                          padding: "8px 16px",
+                          border: "none",
+                          borderRadius: "6px",
+                          background: "#3b82f6",
+                          color: "white",
+                          cursor: "pointer",
+                          fontSize: "14px",
+                          fontWeight: "500",
+                        },
+                      },
+                      [
+                        React.createElement(MdFileDownload, { key: "icon" }),
+                        " Export CSV",
+                      ]
+                    ),
+                  ]
+                ),
+              ]
+            ),
+
+            // Filters and Search
+            React.createElement(
+              "div",
+              {
+                key: "filters",
+                style: {
+                  display: "flex",
+                  gap: "16px",
+                  marginBottom: "20px",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                },
+              },
+              [
+                React.createElement("input", {
+                  key: "search",
+                  type: "text",
+                  placeholder: "🔍 Search employees...",
+                  value: searchTerm,
+                  onChange: (e) => setSearchTerm(e.target.value),
+                  style: {
+                    padding: "10px 14px",
+                    border: "1px solid #d1d5db",
+                    borderRadius: "8px",
+                    fontSize: "14px",
+                    minWidth: "200px",
+                    flex: "1",
+                  },
+                }),
+
+                React.createElement(
+                  "select",
+                  {
+                    key: "department-filter",
+                    value: filterDepartment,
+                    onChange: (e) => setFilterDepartment(e.target.value),
+                    style: {
+                      padding: "10px 14px",
+                      border: "1px solid #d1d5db",
+                      borderRadius: "8px",
+                      fontSize: "14px",
+                      minWidth: "150px",
+                    },
+                  },
+                  [
+                    React.createElement(
+                      "option",
+                      { key: "all", value: "" },
+                      "All Departments"
+                    ),
+                    ...departments.map((dept) =>
+                      React.createElement(
+                        "option",
+                        { key: dept, value: dept },
+                        dept
+                      )
+                    ),
+                  ]
+                ),
+
+                selectedRows.length > 0 &&
+                  React.createElement(
+                    "div",
+                    {
+                      key: "selected-count",
+                      style: {
+                        padding: "8px 12px",
+                        background: "#dbeafe",
+                        borderRadius: "6px",
+                        fontSize: "14px",
+                        color: "#1e40af",
+                        fontWeight: "500",
+                      },
+                    },
+                    `${selectedRows.length} selected`
+                  ),
+              ]
+            ),
+
+            // Table
+            React.createElement(
+              "div",
+              {
+                key: "table-container",
+                style: { overflowX: "auto" },
+              },
+              [
+                React.createElement(
+                  "table",
+                  {
+                    key: "table",
+                    style: {
+                      width: "100%",
+                      borderCollapse: "collapse",
+                      fontSize: "14px",
+                    },
+                  },
+                  [
+                    React.createElement("thead", { key: "thead" }, [
+                      React.createElement(
+                        "tr",
+                        {
+                          key: "header-row",
+                          style: { background: "#f8fafc" },
+                        },
+                        [
+                          React.createElement(
+                            "th",
+                            {
+                              key: "select-all",
+                              style: {
+                                padding: "12px",
+                                borderBottom: "2px solid #e5e7eb",
+                              },
+                            },
+                            [
+                              React.createElement("input", {
+                                type: "checkbox",
+                                checked:
+                                  selectedRows.length ===
+                                    paginatedData.length &&
+                                  paginatedData.length > 0,
+                                onChange: handleSelectAll,
+                                style: { cursor: "pointer" },
+                              }),
+                            ]
+                          ),
+                          ...[
+                            { key: "id", label: "ID" },
+                            { key: "firstName", label: "First Name" },
+                            { key: "lastName", label: "Last Name" },
+                            { key: "email", label: "Email" },
+                            { key: "department", label: "Department" },
+                            { key: "position", label: "Position" },
+                            { key: "salary", label: "Salary" },
+                            { key: "startDate", label: "Start Date" },
+                            { key: "status", label: "Status" },
+                            { key: "performance", label: "Performance" },
+                          ].map(({ key, label }) =>
+                            React.createElement(
+                              "th",
+                              {
+                                key: key,
+                                onClick: () => handleSort(key),
+                                style: {
+                                  padding: "12px",
+                                  borderBottom: "2px solid #e5e7eb",
+                                  textAlign: "left",
+                                  fontWeight: "600",
+                                  color: "#374151",
+                                  cursor: "pointer",
+                                  userSelect: "none",
+                                },
+                              },
+                              `${label} ${getSortIcon(key)}`
+                            )
+                          ),
+                          React.createElement(
+                            "th",
+                            {
+                              key: "actions",
+                              style: {
+                                padding: "12px",
+                                borderBottom: "2px solid #e5e7eb",
+                                textAlign: "center",
+                                fontWeight: "600",
+                                color: "#374151",
+                              },
+                            },
+                            "Actions"
+                          ),
+                        ]
+                      ),
+                    ]),
+                    React.createElement(
+                      "tbody",
+                      { key: "tbody" },
+                      paginatedData.map((row, index) =>
+                        React.createElement(
+                          "tr",
+                          {
+                            key: row.id,
+                            style: {
+                              background: selectedRows.includes(row.id)
+                                ? "#dbeafe"
+                                : index % 2 === 0
+                                  ? "white"
+                                  : "#f9fafb",
+                              transition: "background-color 0.2s",
+                            },
+                          },
+                          [
+                            React.createElement(
+                              "td",
+                              {
+                                key: "select",
+                                style: {
+                                  padding: "12px",
+                                  borderBottom: "1px solid #f3f4f6",
+                                },
+                              },
+                              [
+                                React.createElement("input", {
+                                  type: "checkbox",
+                                  checked: selectedRows.includes(row.id),
+                                  onChange: () => handleRowSelect(row.id),
+                                  style: { cursor: "pointer" },
+                                }),
+                              ]
+                            ),
+                            React.createElement(
+                              "td",
+                              {
+                                key: "id",
+                                style: {
+                                  padding: "12px",
+                                  borderBottom: "1px solid #f3f4f6",
+                                  fontWeight: "500",
+                                },
+                              },
+                              row.id
+                            ),
+                            React.createElement(
+                              "td",
+                              {
+                                key: "firstName",
+                                style: {
+                                  padding: "12px",
+                                  borderBottom: "1px solid #f3f4f6",
+                                },
+                              },
+                              row.firstName
+                            ),
+                            React.createElement(
+                              "td",
+                              {
+                                key: "lastName",
+                                style: {
+                                  padding: "12px",
+                                  borderBottom: "1px solid #f3f4f6",
+                                },
+                              },
+                              row.lastName
+                            ),
+                            React.createElement(
+                              "td",
+                              {
+                                key: "email",
+                                style: {
+                                  padding: "12px",
+                                  borderBottom: "1px solid #f3f4f6",
+                                  color: "#3b82f6",
+                                },
+                              },
+                              row.email
+                            ),
+                            React.createElement(
+                              "td",
+                              {
+                                key: "department",
+                                style: {
+                                  padding: "12px",
+                                  borderBottom: "1px solid #f3f4f6",
+                                },
+                              },
+                              [
+                                React.createElement(
+                                  "span",
+                                  {
+                                    style: {
+                                      padding: "4px 8px",
+                                      background: "#e5e7eb",
+                                      borderRadius: "6px",
+                                      fontSize: "12px",
+                                      fontWeight: "500",
+                                    },
+                                  },
+                                  row.department
+                                ),
+                              ]
+                            ),
+                            React.createElement(
+                              "td",
+                              {
+                                key: "position",
+                                style: {
+                                  padding: "12px",
+                                  borderBottom: "1px solid #f3f4f6",
+                                },
+                              },
+                              row.position
+                            ),
+                            React.createElement(
+                              "td",
+                              {
+                                key: "salary",
+                                style: {
+                                  padding: "12px",
+                                  borderBottom: "1px solid #f3f4f6",
+                                  fontWeight: "600",
+                                  color: "#059669",
+                                },
+                              },
+                              `$${row.salary.toLocaleString()}`
+                            ),
+                            React.createElement(
+                              "td",
+                              {
+                                key: "startDate",
+                                style: {
+                                  padding: "12px",
+                                  borderBottom: "1px solid #f3f4f6",
+                                },
+                              },
+                              row.startDate
+                            ),
+                            React.createElement(
+                              "td",
+                              {
+                                key: "status",
+                                style: {
+                                  padding: "12px",
+                                  borderBottom: "1px solid #f3f4f6",
+                                },
+                              },
+                              getStatusBadge(row.status)
+                            ),
+                            React.createElement(
+                              "td",
+                              {
+                                key: "performance",
+                                style: {
+                                  padding: "12px",
+                                  borderBottom: "1px solid #f3f4f6",
+                                },
+                              },
+                              [
+                                React.createElement(
+                                  "span",
+                                  {
+                                    title: `${row.performance}/5 stars`,
+                                  },
+                                  getPerformanceStars(row.performance)
+                                ),
+                              ]
+                            ),
+                            React.createElement(
+                              "td",
+                              {
+                                key: "actions",
+                                style: {
+                                  padding: "12px",
+                                  borderBottom: "1px solid #f3f4f6",
+                                },
+                              },
+                              [
+                                React.createElement(
+                                  "div",
+                                  {
+                                    style: {
+                                      display: "flex",
+                                      gap: "6px",
+                                      justifyContent: "center",
+                                    },
+                                  },
+                                  [
+                                    React.createElement(
+                                      "button",
+                                      {
+                                        key: "view",
+                                        onClick: () =>
+                                          alert(
+                                            `Viewing ${row.firstName} ${row.lastName}`
+                                          ),
+                                        style: {
+                                          padding: "6px",
+                                          border: "none",
+                                          borderRadius: "4px",
+                                          background: "#3b82f6",
+                                          color: "white",
+                                          cursor: "pointer",
+                                          display: "flex",
+                                          alignItems: "center",
+                                        },
+                                        title: "View",
+                                      },
+                                      React.createElement(MdVisibility)
+                                    ),
+                                    React.createElement(
+                                      "button",
+                                      {
+                                        key: "edit",
+                                        onClick: () =>
+                                          alert(
+                                            `Editing ${row.firstName} ${row.lastName}`
+                                          ),
+                                        style: {
+                                          padding: "6px",
+                                          border: "none",
+                                          borderRadius: "4px",
+                                          background: "#10b981",
+                                          color: "white",
+                                          cursor: "pointer",
+                                          display: "flex",
+                                          alignItems: "center",
+                                        },
+                                        title: "Edit",
+                                      },
+                                      React.createElement(MdEdit)
+                                    ),
+                                    React.createElement(
+                                      "button",
+                                      {
+                                        key: "delete",
+                                        onClick: () => {
+                                          if (
+                                            confirm(
+                                              `Delete ${row.firstName} ${row.lastName}?`
+                                            )
+                                          ) {
+                                            alert(
+                                              `Deleted ${row.firstName} ${row.lastName}`
+                                            );
+                                          }
+                                        },
+                                        style: {
+                                          padding: "6px",
+                                          border: "none",
+                                          borderRadius: "4px",
+                                          background: "#ef4444",
+                                          color: "white",
+                                          cursor: "pointer",
+                                          display: "flex",
+                                          alignItems: "center",
+                                        },
+                                        title: "Delete",
+                                      },
+                                      React.createElement(MdDelete)
+                                    ),
+                                  ]
+                                ),
+                              ]
+                            ),
+                          ]
+                        )
+                      )
+                    ),
+                  ]
+                ),
+              ]
+            ),
+
+            // Pagination
+            React.createElement(
+              "div",
+              {
+                key: "pagination",
+                style: {
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginTop: "20px",
+                  flexWrap: "wrap",
+                  gap: "16px",
+                },
+              },
+              [
+                React.createElement(
+                  "div",
+                  {
+                    key: "info",
+                    style: { fontSize: "14px", color: "#6b7280" },
+                  },
+                  [
+                    `Showing ${(currentPage - 1) * pageSize + 1} to ${Math.min(currentPage * pageSize, processedData.length)} of ${processedData.length} entries`,
+                    data.length !== processedData.length &&
+                      ` (filtered from ${data.length} total)`,
+                  ]
+                ),
+
+                React.createElement(
+                  "div",
+                  {
+                    key: "controls",
+                    style: {
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "12px",
+                    },
+                  },
+                  [
+                    React.createElement(
+                      "select",
+                      {
+                        key: "page-size",
+                        value: pageSize,
+                        onChange: (e) => {
+                          setPageSize(Number(e.target.value));
+                          setCurrentPage(1);
+                        },
+                        style: {
+                          padding: "6px 8px",
+                          border: "1px solid #d1d5db",
+                          borderRadius: "4px",
+                          fontSize: "14px",
+                        },
+                      },
+                      [
+                        React.createElement(
+                          "option",
+                          { key: 10, value: 10 },
+                          "10 per page"
+                        ),
+                        React.createElement(
+                          "option",
+                          { key: 15, value: 15 },
+                          "15 per page"
+                        ),
+                        React.createElement(
+                          "option",
+                          { key: 25, value: 25 },
+                          "25 per page"
+                        ),
+                        React.createElement(
+                          "option",
+                          { key: 50, value: 50 },
+                          "50 per page"
+                        ),
+                      ]
+                    ),
+
+                    React.createElement(
+                      "div",
+                      {
+                        key: "page-buttons",
+                        style: { display: "flex", gap: "4px" },
+                      },
+                      [
+                        React.createElement(
+                          "button",
+                          {
+                            key: "first",
+                            onClick: () => setCurrentPage(1),
+                            disabled: currentPage === 1,
+                            style: {
+                              padding: "6px 10px",
+                              border: "1px solid #d1d5db",
+                              borderRadius: "4px",
+                              background:
+                                currentPage === 1 ? "#f3f4f6" : "white",
+                              cursor:
+                                currentPage === 1 ? "not-allowed" : "pointer",
+                              fontSize: "14px",
+                            },
+                          },
+                          "First"
+                        ),
+                        React.createElement(
+                          "button",
+                          {
+                            key: "prev",
+                            onClick: () =>
+                              setCurrentPage(Math.max(1, currentPage - 1)),
+                            disabled: currentPage === 1,
+                            style: {
+                              padding: "6px 12px",
+                              border: "1px solid #d1d5db",
+                              borderRadius: "4px",
+                              background:
+                                currentPage === 1 ? "#f3f4f6" : "white",
+                              cursor:
+                                currentPage === 1 ? "not-allowed" : "pointer",
+                              fontSize: "14px",
+                            },
+                          },
+                          "Previous"
+                        ),
+
+                        ...[...Array(Math.min(5, totalPages))]
+                          .map((_, i) => {
+                            const pageNum = Math.max(1, currentPage - 2) + i;
+                            if (pageNum > totalPages) return null;
+
+                            return React.createElement(
+                              "button",
+                              {
+                                key: `page-${pageNum}`,
+                                onClick: () => setCurrentPage(pageNum),
+                                style: {
+                                  padding: "6px 12px",
+                                  border: "1px solid #d1d5db",
+                                  borderRadius: "4px",
+                                  background:
+                                    currentPage === pageNum
+                                      ? "#3b82f6"
+                                      : "white",
+                                  color:
+                                    currentPage === pageNum
+                                      ? "white"
+                                      : "#374151",
+                                  cursor: "pointer",
+                                  fontSize: "14px",
+                                  fontWeight:
+                                    currentPage === pageNum ? "600" : "400",
+                                },
+                              },
+                              pageNum
+                            );
+                          })
+                          .filter(Boolean),
+
+                        React.createElement(
+                          "button",
+                          {
+                            key: "next",
+                            onClick: () =>
+                              setCurrentPage(
+                                Math.min(totalPages, currentPage + 1)
+                              ),
+                            disabled: currentPage === totalPages,
+                            style: {
+                              padding: "6px 12px",
+                              border: "1px solid #d1d5db",
+                              borderRadius: "4px",
+                              background:
+                                currentPage === totalPages
+                                  ? "#f3f4f6"
+                                  : "white",
+                              cursor:
+                                currentPage === totalPages
+                                  ? "not-allowed"
+                                  : "pointer",
+                              fontSize: "14px",
+                            },
+                          },
+                          "Next"
+                        ),
+                        React.createElement(
+                          "button",
+                          {
+                            key: "last",
+                            onClick: () => setCurrentPage(totalPages),
+                            disabled: currentPage === totalPages,
+                            style: {
+                              padding: "6px 10px",
+                              border: "1px solid #d1d5db",
+                              borderRadius: "4px",
+                              background:
+                                currentPage === totalPages
+                                  ? "#f3f4f6"
+                                  : "white",
+                              cursor:
+                                currentPage === totalPages
+                                  ? "not-allowed"
+                                  : "pointer",
+                              fontSize: "14px",
+                            },
+                          },
+                          "Last"
+                        ),
+                      ]
+                    ),
+                  ]
+                ),
+              ]
+            ),
+          ]
+        );
+      };
+
+      // Generate sample data
+      const generateEmployees = (count) => {
+        const departments = [
+          "Engineering",
+          "Marketing",
+          "Sales",
+          "HR",
+          "Finance",
+          "Operations",
+          "Legal",
+          "Design",
+        ];
+        const positions = [
+          "Manager",
+          "Senior",
+          "Junior",
+          "Lead",
+          "Director",
+          "VP",
+          "Intern",
+          "Coordinator",
+        ];
+        const firstNames = [
+          "John",
+          "Jane",
+          "Mike",
+          "Sarah",
+          "David",
+          "Lisa",
+          "Chris",
+          "Emma",
+          "Alex",
+          "Maria",
+          "James",
+          "Anna",
+          "Robert",
+          "Emily",
+        ];
+        const lastNames = [
+          "Smith",
+          "Johnson",
+          "Williams",
+          "Brown",
+          "Jones",
+          "Garcia",
+          "Miller",
+          "Davis",
+          "Rodriguez",
+          "Martinez",
+          "Hernandez",
+          "Lopez",
+        ];
+        const statuses = ["active", "inactive", "on-leave"];
+
+        return Array.from({ length: count }, (_, i) => ({
+          id: i + 1,
+          firstName: firstNames[Math.floor(Math.random() * firstNames.length)],
+          lastName: lastNames[Math.floor(Math.random() * lastNames.length)],
+          email: `employee${i + 1}@company.com`,
+          department:
+            departments[Math.floor(Math.random() * departments.length)],
+          position: positions[Math.floor(Math.random() * positions.length)],
+          salary: Math.floor(Math.random() * 120000) + 40000,
+          startDate: new Date(
+            2020 + Math.floor(Math.random() * 4),
+            Math.floor(Math.random() * 12),
+            Math.floor(Math.random() * 28) + 1
+          )
+            .toISOString()
+            .split("T")[0],
+          status: statuses[Math.floor(Math.random() * statuses.length)],
+          performance: Math.floor(Math.random() * 5) + 1,
+        }));
+      };
+
+      // Main App
+      const App = () => {
+        const [employees, setEmployees] = useState(() =>
+          generateEmployees(250)
+        );
+        const [refreshKey, setRefreshKey] = useState(0);
+
+        const handleRefresh = () => {
+          setEmployees(generateEmployees(250));
+          setRefreshKey((prev) => prev + 1);
+        };
+
+        const stats = useMemo(
+          () => ({
+            total: employees.length,
+            active: employees.filter((emp) => emp.status === "active").length,
+            departments: new Set(employees.map((emp) => emp.department)).size,
+            avgSalary: Math.round(
+              employees.reduce((sum, emp) => sum + emp.salary, 0) /
+                employees.length
+            ),
+          }),
+          [employees]
+        );
+
+        return React.createElement(
+          "div",
+          {
+            style: {
+              minHeight: "100vh",
+              background: "linear-gradient(to bottom right, #f3f4f6, #e5e7eb)",
+              padding: "20px",
+            },
+          },
+          [
+            React.createElement(
+              "div",
+              {
+                key: "container",
+                style: { maxWidth: "1400px", margin: "0 auto" },
+              },
+              [
+                // Header
+                React.createElement(
+                  "div",
+                  {
+                    key: "header",
+                    style: {
+                      background:
+                        "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                      color: "white",
+                      padding: "40px 30px",
+                      borderRadius: "12px",
+                      marginBottom: "30px",
+                      textAlign: "center",
+                    },
+                  },
+                  [
+                    React.createElement(
+                      "h1",
+                      {
+                        key: "title",
+                        style: {
+                          margin: "0 0 16px 0",
+                          fontSize: "2.5rem",
+                          fontWeight: "700",
+                          textShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                        },
+                      },
+                      "🚀 React Pro Table Demo"
+                    ),
+                    React.createElement(
+                      "p",
+                      {
+                        key: "subtitle",
+                        style: {
+                          fontSize: "1.1rem",
+                          opacity: 0.95,
+                          maxWidth: "600px",
+                          margin: "0 auto",
+                        },
+                      },
+                      "Professional-grade table component with advanced features including sorting, filtering, pagination, row selection, and CSV export capabilities."
+                    ),
+                  ]
+                ),
+
+                // Stats
+                React.createElement(
+                  "div",
+                  {
+                    key: "stats",
+                    style: {
+                      display: "grid",
+                      gridTemplateColumns:
+                        "repeat(auto-fit, minmax(200px, 1fr))",
+                      gap: "20px",
+                      marginBottom: "30px",
+                    },
+                  },
+                  [
+                    {
+                      label: "Total Employees",
+                      value: stats.total.toLocaleString(),
+                      color: "#3b82f6",
+                    },
+                    {
+                      label: "Active Employees",
+                      value: stats.active.toLocaleString(),
+                      color: "#10b981",
+                    },
+                    {
+                      label: "Departments",
+                      value: stats.departments.toString(),
+                      color: "#f59e0b",
+                    },
+                    {
+                      label: "Average Salary",
+                      value: `$${stats.avgSalary.toLocaleString()}`,
+                      color: "#ef4444",
+                    },
+                  ].map(({ label, value, color }) =>
+                    React.createElement(
+                      "div",
+                      {
+                        key: label,
+                        style: {
+                          background: "white",
+                          padding: "24px",
+                          borderRadius: "12px",
+                          textAlign: "center",
+                          boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+                          border: "1px solid #e5e7eb",
+                        },
+                      },
+                      [
+                        React.createElement(
+                          "div",
+                          {
+                            key: "value",
+                            style: {
+                              fontSize: "2rem",
+                              fontWeight: "700",
+                              color,
+                              marginBottom: "8px",
+                            },
+                          },
+                          value
+                        ),
+                        React.createElement(
+                          "div",
+                          {
+                            key: "label",
+                            style: {
+                              fontSize: "0.875rem",
+                              color: "#6b7280",
+                              fontWeight: "500",
+                            },
+                          },
+                          label
+                        ),
+                      ]
+                    )
+                  )
+                ),
+
+                // Table
+                React.createElement(TableDemo, {
+                  key: `table-${refreshKey}`,
+                  data: employees,
+                  title: "Employee Management System",
+                  onRefresh: handleRefresh,
+                }),
+
+                // Footer
+                React.createElement(
+                  "div",
+                  {
+                    key: "footer",
+                    style: {
+                      background: "white",
+                      padding: "24px",
+                      borderRadius: "12px",
+                      marginTop: "30px",
+                      textAlign: "center",
+                      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+                      border: "1px solid #e5e7eb",
+                    },
+                  },
+                  [
+                    React.createElement(
+                      "h3",
+                      {
+                        key: "features-title",
+                        style: { margin: "0 0 16px 0", color: "#1f2937" },
+                      },
+                      "🌟 Key Features Demonstrated"
+                    ),
+                    React.createElement(
+                      "div",
+                      {
+                        key: "features",
+                        style: {
+                          display: "flex",
+                          flexWrap: "wrap",
+                          gap: "8px",
+                          justifyContent: "center",
+                        },
+                      },
+                      [
+                        "TypeScript Support",
+                        "Advanced Sorting",
+                        "Real-time Filtering",
+                        "Pagination Controls",
+                        "Row Selection",
+                        "CSV Export",
+                        "Responsive Design",
+                        "Performance Optimized",
+                        "Accessible",
+                      ].map((feature) =>
+                        React.createElement(
+                          "span",
+                          {
+                            key: feature,
+                            style: {
+                              padding: "6px 12px",
+                              background: "#dbeafe",
+                              color: "#1e40af",
+                              borderRadius: "20px",
+                              fontSize: "12px",
+                              fontWeight: "600",
+                            },
+                          },
+                          `✨ ${feature}`
+                        )
+                      )
+                    ),
+
+                    React.createElement(
+                      "p",
+                      {
+                        key: "credits",
+                        style: {
+                          margin: "20px 0 0 0",
+                          color: "#6b7280",
+                          fontSize: "14px",
+                        },
+                      },
+                      "Built with ❤️ using React Pro Table • Ready for Production • Enterprise Grade"
+                    ),
+                  ]
+                ),
+              ]
+            ),
+          ]
+        );
+      };
+
+      // Render the app
+      const container = document.getElementById("root");
+      if (container) {
+        const root = createRoot(container);
+        root.render(React.createElement(App));
+      }
+    </script>
+  </body>
+</html>

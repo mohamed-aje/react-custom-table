@@ -1,0 +1,133 @@
+/* Column Filter Styles */
+.filterContainer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--bg-color, #ffffff);
+  border: 1px solid var(--border-color, #e1e8ed);
+  border-radius: 0.5rem;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 0.75rem;
+  margin-top: 0.25rem;
+  min-width: 200px;
+}
+
+.filterContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filterInput,
+.filterSelect {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-color, #d1d5db);
+  border-radius: 0.375rem;
+  background: var(--bg-color, #ffffff);
+  color: var(--text-color, #374151);
+  font-size: 0.875rem;
+  outline: none;
+  transition: all 0.15s ease-in-out;
+}
+
+.filterInput:focus,
+.filterSelect:focus {
+  border-color: var(--primary-color, #3b82f6);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.filterInput::placeholder {
+  color: var(--text-color-placeholder, #9ca3af);
+}
+
+.dateRangeContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dateInput {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-color, #d1d5db);
+  border-radius: 0.375rem;
+  background: var(--bg-color, #ffffff);
+  color: var(--text-color, #374151);
+  font-size: 0.875rem;
+  outline: none;
+  transition: all 0.15s ease-in-out;
+}
+
+.dateInput:focus {
+  border-color: var(--primary-color, #3b82f6);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.dateSeparator {
+  color: var(--text-color-secondary, #6b7280);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.filterActions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.applyButton,
+.clearButton {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+
+.applyButton {
+  background: var(--primary-color, #3b82f6);
+  color: #ffffff;
+}
+
+.applyButton:hover {
+  background: var(--primary-hover-color, #2563eb);
+}
+
+.clearButton {
+  background: var(--secondary-bg-color, #f3f4f6);
+  color: var(--text-color-secondary, #6b7280);
+  border: 1px solid var(--border-color, #d1d5db);
+}
+
+.clearButton:hover {
+  background: var(--secondary-hover-bg-color, #e5e7eb);
+  color: var(--text-color, #374151);
+}
+
+/* Filter Icon States */
+.filterIcon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--text-color-secondary, #6b7280);
+  cursor: pointer;
+  transition: color 0.15s ease-in-out;
+}
+
+.filterIcon:hover {
+  color: var(--primary-color, #3b82f6);
+}
+
+.filterIconActive {
+  color: var(--primary-color, #3b82f6);
+}

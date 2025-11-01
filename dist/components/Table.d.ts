@@ -1,0 +1,4 @@
+import { TableProps, TableRowData } from '../types';
+declare function Table<T extends TableRowData = TableRowData>({ columns, data, title, loading, loadingComponent, pagination, sortConfig: initialSortConfig, multiSort, filterConfig: initialFilterConfig, globalSearch, searchPlaceholder, actions, rowSelection, rowKey, rowClassName, rowStyle, tableStyle, containerStyle, theme, locale, exportConfig, virtualization, responsive, mobileCardView, stickyHeader, stickyColumns, resizable, reorderable, emptyState, permissions, onSort, onFilter, onPaginationChange, onRowClick, onRowDoubleClick, onRowContextMenu, onColumnResize, onColumnReorder, onExport, 'aria-label': ariaLabel, 'aria-describedby': ariaDescribedBy, 'data-testid': testId, ...legacyProps }: TableProps<T> & any): import("react/jsx-runtime").JSX.Element;
+export default Table;
+//# sourceMappingURL=Table.d.ts.map
